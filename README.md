@@ -1,0 +1,1 @@
+lendico-react-app
