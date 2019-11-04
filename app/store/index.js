@@ -1,7 +1,10 @@
 import { createStore } from 'redux';
 
 function reducer() {
-    return []
+  return {
+    user: null,
+    repositories: [],
+  };
 }
 
 const store = createStore(reducer);
