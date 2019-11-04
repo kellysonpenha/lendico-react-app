@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React from 'react';
+import 'babel-polyfill';
 
+import Routes from './routes';
+import { GlobalStyle } from './styles';
 
-import Routes from "./routes";
-
-class App extends React.Component {
-  render() {
-    return (
-      <>
-        <Routes />
-      </>
-    );
-  }
-}
+const App = () => (
+  <>
+    <GlobalStyle />
+    <Routes />
+  </>
+);
 
 export default App;
