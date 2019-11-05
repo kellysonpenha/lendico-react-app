@@ -2,29 +2,36 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import api from '../services/api';
 
+import * as repositoryActions from '../store/actions/addRepository';
 
-function setRepositories(repositories) {
-  return {
-    type: 'SET_REPOSITORIES',
-    repositories,
-  };
-}
+import { bindActionCreators } from 'redux';
+
 
 class RepositoriesList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
-    this.getRepositories();
+    if (this.props.repositories.user !== null) {
+      this.getRepositories();
+    }
+  }
+
+  ComponentUpdate() {
+    console.log('nem sei')
   }
 
   getRepositories = async () => {
     const response = await api.get('users/kellysonpenha/repos');
-    setRepositories(response.data);
+    this.props.addRepositories(response.data);
   }
 
-  render(repositories = []) {
-    if (repositories.length > 0) {
+  render() {
+    if (this.props.repositories.length > 0) {
       return (
         <div>
-          {repositories.map((repository) => (
+          {this.props.repositories.map((repository) => (
             <h2 key={repository.id}>{repository.name}</h2>
           ))}
         </div>
@@ -38,4 +45,12 @@ class RepositoriesList extends Component {
   }
 }
 
-export default connect((state) => ({ repositories: state.repositories }))(RepositoriesList);
+const mapStateToProps = (state) => ({
+  repositories: state.repositories,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators(repositoryActions, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepositoriesList);
