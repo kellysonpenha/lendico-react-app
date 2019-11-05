@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import api from '../services/api';
 
-export default class RepositoriesList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      repositories: [],
-    };
-  }
 
+function setRepositories(repositories) {
+  return {
+    type: 'SET_REPOSITORIES',
+    repositories,
+  };
+}
+
+class RepositoriesList extends Component {
   componentDidMount() {
     this.getRepositories();
   }
 
   getRepositories = async () => {
     const response = await api.get('users/kellysonpenha/repos');
-    this.setState({
-      repositories: response.data,
-    });
+    setRepositories(response.data);
   }
 
-  render() {
-    const { repositories } = this.state;
-
+  render(repositories = []) {
     if (repositories.length > 0) {
       return (
         <div>
@@ -39,3 +37,5 @@ export default class RepositoriesList extends Component {
     );
   }
 }
+
+export default connect((state) => ({ repositories: state.repositories }))(RepositoriesList);
